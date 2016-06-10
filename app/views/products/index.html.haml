@@ -1,0 +1,31 @@
+%h1{class: "text-center"} Products list 
+%table{class: "table table-striped"}
+	%thead
+		%tr 
+			%th='&nbsp;'.html_safe
+			%th Product Type  
+			%th Name
+			%th Price
+			%th Discontinued 
+			%th Product details
+			%th Edit product
+
+	%tbody
+		-@products.each_with_index do |product, index|
+			%tr 
+
+				%td #{index+1}
+				%td=product.product_type.name 
+				%td=product.name
+				%td=number_to_currency(product.price)
+				%td=product.discontinued
+				%td=link_to "Show product", product_path(product),  class: "btn btn-primary btn-xs" 
+				%td=link_to "Edit product", edit_product_path(product),  class: "btn btn-primary btn-xs" 
+
+%hr 
+=form_tag new_product_path, method: :get do 
+	.form-group.form-inline
+		= select_tag :product_type_id, options_from_collection_for_select(ProductType.all, :id, :name), class: "form-control"
+		= submit_tag "New Product", name: nil, class: "btn btn-primary pull-right"
+
+
